@@ -1,6 +1,6 @@
 from pathlib import Path
-
-import click
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 import torch
 from sklearn.metrics import f1_score, roc_auc_score
 from torch.utils import data
@@ -8,8 +8,7 @@ from torch.utils import data
 import datahandler
 from model import createDeepLabv3
 from trainer import train_model
-
-
+'''
 @click.command()
 @click.option("--data-directory",
               required=True,
@@ -26,6 +25,11 @@ from trainer import train_model
               default=4,
               type=int,
               help="Specify the batch size for the dataloader.")
+'''
+data_directory ='./CrackForest'
+exp_directory='./CFExp'
+epochs=1
+batch_size=4
 def main(data_directory, exp_directory, epochs, batch_size):
     # Create the deeplabv3 resnet101 model which is pretrained on a subset
     # of COCO train2017, on the 20 categories that are present in the Pascal VOC dataset.
@@ -61,4 +65,9 @@ def main(data_directory, exp_directory, epochs, batch_size):
 
 
 if __name__ == "__main__":
-    main()
+    data_directory ='./CrackForest'
+    exp_directory='./CFExp'
+    epochs=1
+    batch_size=1
+    
+    main(data_directory,exp_directory,epochs,batch_size)
