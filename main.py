@@ -26,8 +26,8 @@ from trainer import train_model
               type=int,
               help="Specify the batch size for the dataloader.")
 '''
-data_directory ='./CrackForest'
-exp_directory='./CFExp'
+data_directory ='./FloorData'
+exp_directory='./FloorExp'
 epochs=1
 batch_size=4
 def main(data_directory, exp_directory, epochs, batch_size):
@@ -65,9 +65,11 @@ def main(data_directory, exp_directory, epochs, batch_size):
 
 
 if __name__ == "__main__":
-    data_directory ='./CrackForest'
-    exp_directory='./CFExp'
+    #data_directory ='./CrackForest'
+    #exp_directory='./CFExp'
+    data_directory ='./FloorData'
+    exp_directory='./FloorExp'
     epochs=1
-    batch_size=1
+    batch_size=2
     
     main(data_directory,exp_directory,epochs,batch_size)
