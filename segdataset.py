@@ -66,16 +66,16 @@ class SegmentationDataset(VisionDataset):
         self.mask_color_mode = mask_color_mode
 
         if not fraction:
-            self.image_names = sorted(image_folder_path.glob("*"))
-            self.mask_names = sorted(mask_folder_path.glob("*"))
+            self.image_names = sorted(image_folder_path.glob("*.jpg"))
+            self.mask_names = sorted(mask_folder_path.glob("*.png"))
         else:
             if subset not in ["Train", "Test"]:
                 raise (ValueError(
                     f"{subset} is not a valid input. Acceptable values are Train and Test."
                 ))
             self.fraction = fraction
-            self.image_list = np.array(sorted(image_folder_path.glob("*")))
-            self.mask_list = np.array(sorted(mask_folder_path.glob("*")))
+            self.image_list = np.array(sorted(image_folder_path.glob("*.jpg")))
+            self.mask_list = np.array(sorted(mask_folder_path.glob("*.png")))
             if seed:
                 np.random.seed(seed)
                 indices = np.arange(len(self.image_list))
@@ -98,7 +98,9 @@ class SegmentationDataset(VisionDataset):
 
     def __getitem__(self, index: int) -> Any:
         image_path = self.image_names[index]
-        mask_path = self.mask_names[index]
+        smask=str(image_path).replace('Images','Masks')
+        mask_path=Path(smask.replace('.jpg','.npg'))
+        #mask_path = self.mask_names[index]
         with open(image_path, "rb") as image_file, open(mask_path,
                                                         "rb") as mask_file:
             image = Image.open(image_file)
