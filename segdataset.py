@@ -99,7 +99,7 @@ class SegmentationDataset(VisionDataset):
     def __getitem__(self, index: int) -> Any:
         image_path = self.image_names[index]
         smask=str(image_path).replace('Images','Masks')
-        mask_path=Path(smask.replace('.jpg','.npg'))
+        mask_path=Path(smask.replace('.jpg','.png'))
         #mask_path = self.mask_names[index]
         with open(image_path, "rb") as image_file, open(mask_path,
                                                         "rb") as mask_file:
