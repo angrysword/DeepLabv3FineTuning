@@ -12,8 +12,9 @@ import os
 class DataPrepare():
     def __init__(self):
         self.basedir=r'./DeepLabv3FineTuning/ADEChallengeData2016/'
-        self.basedir_annt=r'.\ADEChallengeData2016\annotations\training'
-        self.basedir_imgt=r'./ADEChallengeData2016/images/training'
+        self.basedir_annt=r'..\freespacetrainingdataset\ADEChallengeData2016\annotations\training'
+        self.basedir_imgt=r'..\freespacetrainingdataset/ADEChallengeData2016/images/training'
+        #'C:\Users\caofamily\temp\freespacetrainingdataset\ADEChallengeData2016
 
         self.target_imgdir=r'.\FloorDataL\Images'
         self.target_segdir=r'.\FloorDataL\Masks'

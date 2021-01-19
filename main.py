@@ -42,7 +42,9 @@ def main(data_directory, exp_directory, epochs, batch_size):
         exp_directory.mkdir()
 
     # Specify the loss function
-    criterion = torch.nn.MSELoss(reduction='mean')
+    #criterion = torch.nn.CrossEntropyLoss(reduction='mean') #
+    #loss function change 1/3
+    criterion = torch.nn.BCELoss()
     # Specify the optimizer with a lower learning rate
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 
@@ -67,9 +69,9 @@ def main(data_directory, exp_directory, epochs, batch_size):
 if __name__ == "__main__":
     #data_directory ='./CrackForest'
     #exp_directory='./CFExp'
-    data_directory ='./FloorData'
+    data_directory ='./FloorDataL'
     exp_directory='./FloorExp'
-    epochs=1
-    batch_size=2
+    epochs=10
+    batch_size=32
     
     main(data_directory,exp_directory,epochs,batch_size)

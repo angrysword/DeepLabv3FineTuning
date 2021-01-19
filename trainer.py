@@ -41,13 +41,18 @@ def train_model(model, criterion, dataloaders, optimizer, metrics, bpath,
             for sample in tqdm(iter(dataloaders[phase])):
                 inputs = sample['image'].to(device)
                 masks = sample['mask'].to(device)
+                #loss function change 2/3
+                masks[masks>0]=1
                 # zero the parameter gradients
                 optimizer.zero_grad()
 
                 # track history if only in train
                 with torch.set_grad_enabled(phase == 'Train'):
                     outputs = model(inputs)
-                    loss = criterion(outputs['out'], masks)
+
+                    #loss function change 3/3
+                    m=torch.nn.Sigmoid()
+                    loss = criterion(m(outputs['out']), masks)
                     y_pred = outputs['out'].data.cpu().numpy().ravel()
                     y_true = masks.data.cpu().numpy().ravel()
                     for name, metric in metrics.items():
