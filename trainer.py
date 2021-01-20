@@ -6,6 +6,13 @@ import time
 import numpy as np
 import torch
 from tqdm import tqdm
+def save_model_checkpoint(epoch,state_dict,opt_state_dict,loss,chkpath):
+    torch.save({
+            'epoch': epoch,
+            'model_state_dict': state_dict,
+            'optimizer_state_dict': opt_state_dict,
+            'loss': loss,
+            }, chkpath)
 
 
 def train_model(model, criterion, dataloaders, optimizer, metrics, bpath,
@@ -72,17 +79,24 @@ def train_model(model, criterion, dataloaders, optimizer, metrics, bpath,
             epoch_loss = loss
             batchsummary[f'{phase}_loss'] = epoch_loss.item()
             print('{} Loss: {:.4f}'.format(phase, loss))
+            if phase == 'Train':
+                tf=time.strftime("%b%d_%H_%M")
+                file_name=os.path.join(bpath,"h{}_e{}.pt".format(tf,epoch))
+                save_model_checkpoint(epoch,model.state_dict(),optimizer.state_dict(),epoch_loss,file_name)
+
+
         for field in fieldnames[3:]:
             batchsummary[field] = np.mean(batchsummary[field])
         print(batchsummary)
         with open(os.path.join(bpath, 'log.csv'), 'a', newline='') as csvfile:
+
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writerow(batchsummary)
             # deep copy the model
             if phase == 'Test' and loss < best_loss:
                 best_loss = loss
                 best_model_wts = copy.deepcopy(model.state_dict())
-
+        
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(
         time_elapsed // 60, time_elapsed % 60))

@@ -26,15 +26,20 @@ from trainer import train_model
               type=int,
               help="Specify the batch size for the dataloader.")
 '''
-data_directory ='./FloorData'
-exp_directory='./FloorExp'
-epochs=1
-batch_size=4
-def main(data_directory, exp_directory, epochs, batch_size):
+def load_chk_data(chkpath,model,optimizer):
+    checkpoint = torch.load(chkpath)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    epoch = checkpoint['epoch']
+    loss = checkpoint['loss']
+    print("load chk model:{},loss:{}".format(chkpath,loss))
+
+
+
+def main(data_directory, exp_directory, epochs, batch_size,chkpath=None,loadchk=False):
     # Create the deeplabv3 resnet101 model which is pretrained on a subset
     # of COCO train2017, on the 20 categories that are present in the Pascal VOC dataset.
     model = createDeepLabv3()
-    model.train()
     data_directory = Path(data_directory)
     # Create the experiment directory if not present
     exp_directory = Path(exp_directory)
@@ -47,6 +52,11 @@ def main(data_directory, exp_directory, epochs, batch_size):
     criterion = torch.nn.BCELoss()
     # Specify the optimizer with a lower learning rate
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+
+    if loadchk:
+        load_chk_data(chkpath,model,optimizer)
+
+    model.train()
 
     # Specify the evaluation metrics
     metrics = {'f1_score': f1_score, 'auroc': roc_auc_score}
@@ -69,9 +79,11 @@ def main(data_directory, exp_directory, epochs, batch_size):
 if __name__ == "__main__":
     #data_directory ='./CrackForest'
     #exp_directory='./CFExp'
-    data_directory ='./FloorDataL'
+    data_directory ='./FloorData'
     exp_directory='./FloorExp'
-    epochs=10
-    batch_size=32
+    exp_directory='../drive/MyDrive/aexp'
+    epochs=15
+    batch_size=16
     
-    main(data_directory,exp_directory,epochs,batch_size)
+    chkpath='.\FloorExp\Jan19.pt'
+    main(data_directory,exp_directory,epochs,batch_size,chkpath,True)
