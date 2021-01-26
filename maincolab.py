@@ -83,7 +83,7 @@ def main(data_directory, exp_directory, epochs, batch_size,chkpath=None,loadchk=
 if __name__ == "__main__":
     #data_directory ='./CrackForest'
     #exp_directory='./CFExp'
-    data_directory ='./FloorData'
+    data_directory ='./FloorDataLs'
     exp_directory='./FloorExp'
     exp_directory='../drive/MyDrive/aexp'
     epochs=15
