@@ -16,8 +16,8 @@ class DataPrepare():
         self.basedir_imgt=r'..\freespacetrainingdataset/ADEChallengeData2016/images/training'
         #'C:\Users\caofamily\temp\freespacetrainingdataset\ADEChallengeData2016
 
-        self.target_imgdir=r'.\FloorDataL\Images'
-        self.target_segdir=r'.\FloorDataL\Masks'
+        self.target_imgdir=r'.\FloorDataLs\Images'
+        self.target_segdir=r'.\FloorDataLs\Masks'
 
         self.names=[]
         for i in range(1, 20000, 1): # Just to generate bigger numbers
@@ -27,7 +27,7 @@ class DataPrepare():
         imgfiles=list(Path(self.basedir_imgt).rglob("*.jpg"))
         return imgfiles,segfiles
     
-    def process(self,segno=4,size=(320,240)):
+    def process(self,segno=4,size=(160,120)):
         imgfs,segfs=self.get_img_seg_files()
         n_files = len(segfs)
         processed=0
@@ -76,6 +76,6 @@ class DataPrepare():
 
 if __name__ == '__main__':
     dp=DataPrepare()
-    dp.process(segno=4,size=(320,240))
+    dp.process(segno=4,size=(160,120))
        
 
