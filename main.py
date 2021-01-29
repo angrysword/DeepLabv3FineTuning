@@ -81,9 +81,9 @@ if __name__ == "__main__":
     #exp_directory='./CFExp'
     data_directory ='./FloorData'
     exp_directory='./FloorExp'
-    exp_directory='../drive/MyDrive/aexp'
+    #exp_directory='../drive/MyDrive/aexp'
     epochs=15
-    batch_size=16
+    batch_size=2
     
     chkpath='.\FloorExp\Jan19.pt'
-    main(data_directory,exp_directory,epochs,batch_size,chkpath,True)
+    main(data_directory,exp_directory,epochs,batch_size,chkpath,False)
